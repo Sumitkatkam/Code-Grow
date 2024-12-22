@@ -25,6 +25,8 @@ yarn-debug.log*
 yarn-error.log*
 
 .vercel
+.How to Run.txt
+
 
 # Local Netlify folder
 .netlify
