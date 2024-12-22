@@ -25,7 +25,8 @@
       "web-vitals": "^2.1.4"
     },
     "scripts": {
-      "server:dev": "nodemon server.js"
+      "server:dev": "nodemon server.js",
+      "build": "react-scripts build"
     },
     "eslintConfig": {
       "extends": [
