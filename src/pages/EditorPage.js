@@ -32,9 +32,10 @@ const EditorPage = () => {
           username: location.state?.username,
         });
 
-        socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
-          if (username !== location.state?.username) {
-            toast.success(`${username} Joined the room successfully.`);
+        socketRef.current.on(ACTIONS.JOINED, ({ clients:clients, username, socketId }) => {
+          const isCurrentUser = username !== location.state?.username;
+          if (!isCurrentUser) {
+          toast.success(`${username} Joined the room successfully.`);
           }
           setClients(clients);
           setClients((prevClients) => {
@@ -43,11 +44,12 @@ const EditorPage = () => {
             );
             return uniqueClients;
           });
+          if(!isCurrentUser){
           socketRef.current.emit(ACTIONS.SYNC_CODE, {
             code: codeRef.current,
             socketId,
           });
-
+          }
         });
 
         socketRef.current.on(ACTIONS.CLIENT_JOINED, ({ clients }) => {
@@ -60,9 +62,12 @@ const EditorPage = () => {
         });
 
         socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
-          toast.success(`${username} left the room.`);
           setClients((prev) => {
-            return prev.filter((client) => client.socketId !== socketId);
+            const updatedClients = prev.filter((client) => client.socketId !== socketId);
+            if(prev.length > updatedClients.length){
+              toast.success(`${username} left the room.`);
+            }
+            return updatedClients;
           });
         });
 
@@ -80,6 +85,7 @@ const EditorPage = () => {
         socketRef.current.disconnect();
         socketRef.current.off(ACTIONS.JOINED);
         socketRef.current.off(ACTIONS.CLIENT_JOINED);
+        socketRef.current.off(ACTIONS.DISCONNECTED);
       }
     };
   }, [roomId, location.state?.username, reactNavigator]);
