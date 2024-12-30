@@ -1,4 +1,4 @@
 To run the project 
-1) Simply run the command in the cmd with
-npm run server:dev and the the port will run at 3000.
+1) Open the 1st cmd and run the command (npm run start:front) for frontend 
+2) Then Open the 2nd cmd and run the command (npm run server:dev) for backend 
  

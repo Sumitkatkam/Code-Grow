@@ -1,5 +1,5 @@
 const express = require('express');
-const ACTIONS = require('../src/Actions');
+const ACTIONS = require('./src/Actions');
 const app = express();
 const path = require('path');
 const http = require('http');
